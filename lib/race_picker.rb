@@ -1,72 +1,127 @@
 class RacePicker
-  SUBRACES = {
-    "Dwarf" => {
-      "1" => "Hill Dwarf",
-      "2" => "Mountain Dwarf"
+  RACES = {
+    "1" => {
+      "Name"             => "Dwarf",
+      "AbilityIncreases" => {
+      },
+      "Subraces" => {
+        "1" => {
+          "Name" => "Hill Dwarf"
+          "AbilityIncreases" => {
+          },
+        },
+        "2" => {
+          "Name" => "Mountain Dwarf"
+          "AbilityIncreases" => {
+          },
+        }
+      }
     },
-    "Elf" => {
-      "1" => "Dark Elf",
-      "2" => "Wood Elf",
-      "3" => "High Elf"
+    "2" => {
+      "Name"     => "Elf",
+      "AbilityIncreases" => {
+      },
+      "Subraces" => {
+        "1" => {
+          "Name" => "Dark Elf"
+          "AbilityIncreases" => {
+          },
+        },
+        "2" => {
+          "Name" => "Wood Elf"
+          "AbilityIncreases" => {
+          },
+        },
+        "3" => {
+          "Name" => "High Elf"
+          "AbilityIncreases" => {
+          },
+        }
+      }
     },
-    "Halfling" => {
-      "1" => "Lightfoot Halfling",
-      "2" => "Stout Halfling"
+    "3" => {
+      "Name" => "Halfling",
+      "AbilityIncreases" => {
+      },
+      "Subraces" => {
+        "1" => {
+          "Name" => "Lightfoot Halfling"
+          "AbilityIncreases" => {
+          },
+        },
+        "2" => {
+          "Name" => "Stout Halfling"
+          "AbilityIncreases" => {
+          },
+        }
+      }
     },
-    "Gnome" => {
-      "1" => "Rock Gnome",
-      "2" => "Forest Gnome"
+    "4" => {
+      "Name" => "Human"
+      "AbilityIncreases" => {
+      },
+    },
+    "5" => {
+      "Name" => "Dragonboard"
+      "AbilityIncreases" => {
+      },
+    },
+    "6" => {
+      "Name" => "Gnome",
+      "AbilityIncreases" => {
+      },
+      "Subraces" => {
+        "1" => {
+          "Name" => "Rock Gnome"
+          "AbilityIncreases" => {
+          },
+        },
+        "2" => {
+          "Name" => "Forest Gnome"
+          "AbilityIncreases" => {
+          },
+        }
+      }
+    },
+    "7" => {
+      "Name" => "Half-Elf"
+      "AbilityIncreases" => {
+      },
+    },
+    "8" => {
+      "Name" => "Half-Orc"
+      "AbilityIncreases" => {
+      },
+    },
+    "9" => {
+      "Name" => "Tiefling"
+      "AbilityIncreases" => {
+      },
     }
   }
 
-  RACES = {
-    "1" => "Dwarf",
-    "2" => "Elf",
-    "3" => "Halfling",
-    "4" => "Human",
-    "5" => "Dragonboard",
-    "6" => "Gnome",
-    "7" => "Half-Elf",
-    "8" => "Half-Orc",
-    "9" => "Tiefling",
-  }
-
   def initialize
-    display_race_table
-
-    @race = get_race
+    @race          = get_race
+    @abl_score_inc = {}
   end
 
-  def display_race_table
-    header = [
+  def get_header(type)
+    [
       "@" + "-"*78 + "@",
-      "| Select a Race",
+      "| Select a #{type}-Race",
       "@" + "-"*78 + "@"
     ]
+  end
 
-    puts header
+  def display_race_table_prompt(type, data)
+    puts get_header(type)
 
-    RACES.each do |k,v|
-      puts "|\t#{k}:\t#{v}"
+    data.each do |k,v|
+      puts "|\t#{k}:\t#{v["Name"]}"
     end
 
     puts "@------------------------------------------------------------------------------@"
-  end
-
-  def display_subrace_table(race)
-    header = [
-      "@" + "-"*78 + "@",
-      "| Select a Subrace",
-      "@" + "-"*78 + "@"
-    ]
-
-    puts header
-
-    SUBRACES[race].each do |k,v|
-      puts "|\t#{k}:\t#{v}"
-    end
-
-    puts "@------------------------------------------------------------------------------@"
+    printf "#{type}-Race: "
   end
 
   def get_race
@@ -74,22 +129,21 @@ class RacePicker
     subrace = ""
 
     until RACES.values.include?(race) do
-      printf "Race: "
+      display_race_table_prompt("Main", RACES)
       race = RACES[STDIN.gets.chomp]
     end
 
-    if SUBRACES.keys.include?(race)
-      display_subrace_table(race)
+    if race["Subraces"]
+      display_race_table_prompt("Sub", race["Subraces"])
 
-      until SUBRACES[race].values.include?(subrace) do
-        printf "Subrace: "
-        subrace = SUBRACES[race][STDIN.gets.chomp]
+      until race["Subraces"].values.include?(subrace) do
+        subrace = race["Subraces"][STDIN.gets.chomp]
       end
 
-      return subrace
+      return subrace["Name"]
     end
 
-    race
+    race["Name"]
   end
 end
 

@@ -1,4 +1,9 @@
 class RacePicker
+  MENU_BORDER        = "@" + "-"*78 + "@"
+  HALF_ELF_ABILITIES = [
+    "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom"
+  ]
+
   RACES = {
     "1" => {
       "Name"             => "Dwarf",
@@ -145,27 +150,47 @@ class RacePicker
     @race              = set_race
   end
   
-  def get_header
-    [
-      "@" + "-"*78 + "@",
-      "| Select a Race",
-      "@" + "-"*78 + "@"
-    ]
+  def get_race_header
+    [ MENU_BORDER, "| Select a Race", MENU_BORDER]
   end
 
   def display_race_table_prompt(data)
-    puts get_header()
+    puts get_race_header()
+    data.each{|k,v| puts "|\t#{k}:\t#{v["Name"]}" }
 
-    data.each do |k,v|
-      puts "|\t#{k}:\t#{v["Name"]}"
+    printf "#{MENU_BORDER}\nRace: "
+  end
+
+  def get_half_elf_header
+    [MENU_BORDER, "| Select a Ability to increase(+1)", MENU_BORDER]
+  end
+
+  def display_half_elf_prompt(data)
+    puts get_half_elf_header()
+    data.each.with_index{|v,i| puts "|\t#{i + 1}:\t#{v}"}
+
+    printf "#{MENU_BORDER}\nAbility: "
+  end
+
+  def set_half_elf_increases
+    abilities = HALF_ELF_ABILITIES
+
+    2.times do
+      ability = ""
+      until abilities.include?(ability) do
+        display_half_elf_prompt(abilities)
+        ability = abilities[STDIN.gets.chomp.to_i - 1]
+      end
+
+      @ability_increases[ability] = 1
+      abilities.delete(ability)
     end
-
-    puts "@------------------------------------------------------------------------------@"
-    printf "Race: "
   end
 
   def apply_ability_increases(race)
     race["AbilityIncreases"].each { |k,v| @ability_increases[k] = v}
+
+    set_half_elf_increases if race["Name"] == "Half-Elf"
   end
 
   def apply_speed(race)
@@ -185,13 +210,11 @@ class RacePicker
 
   def set_race
     race = get_race(RACES)
-
     apply_ability_increases(race)
     apply_speed(race)
 
     if race["Subraces"]
       race = get_race(race["Subraces"])
-
       apply_ability_increases(race)
       apply_speed(race)
     end

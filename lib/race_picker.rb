@@ -3,7 +3,6 @@ class RacePicker
   HALF_ELF_ABILITIES = [
     "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom"
   ]
-
   RACES = {
     "1" => {
       "Name"             => "Dwarf",
@@ -156,7 +155,7 @@ class RacePicker
 
   def display_race_table_prompt(data)
     puts get_race_header()
-    data.each{|k,v| puts "|\t#{k}:\t#{v["Name"]}" }
+    data.each{|k,v| puts "|\t#{k}#{'.'*8}#{v["Name"]}" }
 
     printf "#{MENU_BORDER}\nRace: "
   end
@@ -167,7 +166,7 @@ class RacePicker
 
   def display_half_elf_prompt(data)
     puts get_half_elf_header()
-    data.each.with_index{|v,i| puts "|\t#{i + 1}:\t#{v}"}
+    data.each.with_index{|v,i| puts "|\t#{i + 1}#{'.'*8}#{v}"}
 
     printf "#{MENU_BORDER}\nAbility: "
   end

@@ -6,7 +6,7 @@ module DnD
       @race        = race
       @klass       = klass
       @modifiers   = {}
-      @scores = get_base_scores()
+      @scores      = get_base_scores()
 
       apply_increases
       set_modifiers
@@ -30,9 +30,7 @@ module DnD
     end
 
     def set_modifiers
-      @scores.each do |k,v|
-        @modifiers[k] = get_modifier(v)
-      end
+      @scores.each{ |k,v| @modifiers[k] = get_modifier(v) }
     end
 
     def set_default_ac
@@ -44,13 +42,7 @@ module DnD
     end
 
     def get_sum_of_best_of_4d6
-      roll = []
-
-      4.times{ roll << 1 + rand(6) }
-
-      roll.sort!
-      roll.shift
-      roll.sum
+      4.times.collect{ 1 + rand(6) }.sort[1..3].sum
     end
 
     def get_modifier(score)

@@ -46,54 +46,15 @@ module DnD
     def get_sum_of_best_of_4d6
       roll = []
 
-      puts "Rolling 4D6..."
-      4.times do
-        roll << 1 + rand(6)
-      end
-
-      puts "Rolled: #{roll}"
+      4.times{ roll << 1 + rand(6) }
 
       roll.sort!
       roll.shift
-
-      puts "Sum of best: #{roll.sum}"
       roll.sum
     end
 
     def get_modifier(score)
-      if score == 1
-        -5
-      elsif score.between?(2,3)
-        -4
-      elsif score.between?(4,5)
-        -3
-      elsif score.between?(6,7)
-        -2
-      elsif score.between?(8,9)
-        -1
-      elsif score.between?(10,11)
-        0
-      elsif score.between?(12,13)
-        1
-      elsif score.between?(14,15)
-        2
-      elsif score.between?(16,17)
-        3
-      elsif score.between?(17,18)
-        4
-      elsif score.between?(19,20)
-        5
-      elsif score.between?(21,22)
-        6
-      elsif score.between?(23,24)
-        7
-      elsif score.between?(25,26)
-        8
-      elsif score.between?(27,28)
-        9
-      else score.between?(29,30)
-        10
-      end
+      (score - 10) / 2
     end
   end
 end

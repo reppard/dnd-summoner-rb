@@ -2,7 +2,6 @@ require_relative 'race_data'
 
 module DnD
   class RacePicker
-
     attr_accessor :race, :speed, :ability_increases
 
     def initialize
@@ -15,6 +14,10 @@ module DnD
       [DnD::MENU_BORDER, "| Select a Race", DnD::MENU_BORDER]
     end
 
+    def get_custom_ability_header
+      [DnD::MENU_BORDER, "| Select a Ability to increase(+1)", DnD::MENU_BORDER]
+    end
+
     def display_race_table_prompt(data)
       puts get_race_header()
       data.each.with_index{|d,i| puts "|\t#{i + 1}#{'.'*8}#{d[0]}"}
@@ -22,9 +25,6 @@ module DnD
       printf "#{DnD::MENU_BORDER}\nRace: "
     end
 
-    def get_custom_ability_header
-      [DnD::MENU_BORDER, "| Select a Ability to increase(+1)", DnD::MENU_BORDER]
-    end
 
     def display_custom_ability_prompt(data)
       puts get_custom_ability_header()
@@ -48,7 +48,6 @@ module DnD
     end
 
     def apply_ability_increases(race)
-      puts race
       race["AbilityIncreases"].each { |k,v| @ability_increases[k] = v}
 
       set_custom_increases(race["CustomAbilities"]) if race["CustomAbilities"]

@@ -2,61 +2,41 @@ module DnD
   RACES = {
     "Dwarf" => {
       "Speed"            => 25,
-      "AbilityIncreases" => {
-        "Constitution" => 2
-      },
+      "AbilityIncreases" => { "Constitution" => 2 },
       "Subraces" => {
         "Hill Dwarf" => {
-          "AbilityIncreases" => {
-            "Wisdom" => 1
-          },
+          "AbilityIncreases" => { "Wisdom" => 1 }
         },
         "Mountain Dwarf" => {
-          "AbilityIncreases" => {
-            "Strength" => 2
-          },
+          "AbilityIncreases" => { "Strength" => 2 }
         }
       }
     },
     "Elf" => {
       "Speed"            => 30,
-      "AbilityIncreases" => {
-        "Dexterity" => 2
-      },
+      "AbilityIncreases" => { "Dexterity" => 2 },
       "Subraces" => {
         "Dark Elf" => {
-          "AbilityIncreases" => {
-            "Charisma" => 1
-          },
+          "AbilityIncreases" => { "Charisma" => 1 }
         },
         "Wood Elf" => {
           "Speed"            => 35,
-          "AbilityIncreases" => {
-            "Wisdom" => 1
-          },
+          "AbilityIncreases" => { "Wisdom" => 1 }
         },
         "High Elf" => {
-          "AbilityIncreases" => {
-            "Intelligence" => 1
-          },
+          "AbilityIncreases" => { "Intelligence" => 1 }
         }
       }
     },
     "Halfling" => {
       "Speed"            => 25,
-      "AbilityIncreases" => {
-        "Dexterity" => 2
-      },
+      "AbilityIncreases" => { "Dexterity" => 2 },
       "Subraces" => {
         "Lightfoot Halfling" => {
-          "AbilityIncreases" => {
-            "Charisma" => 1
-          },
+          "AbilityIncreases" => { "Charisma" => 1 }
         },
         "Stout Halfling" => {
-          "AbilityIncreases" => {
-            "Constitution" => 1
-          },
+          "AbilityIncreases" => { "Constitution" => 1 }
         }
       }
     },
@@ -73,34 +53,23 @@ module DnD
     },
     "Dragonborn" => {
       "Speed"            => 30,
-      "AbilityIncreases" => {
-        "Strength" => 2,
-        "Charisma" => 1
-      },
+      "AbilityIncreases" => { "Strength" => 2, "Charisma" => 1 }
     },
     "Gnome" => {
       "Speed"            => 25,
-      "AbilityIncreases" => {
-        "Intelligence" => 2,
-      },
+      "AbilityIncreases" => { "Intelligence" => 2 },
       "Subraces" => {
         "Forest Gnome" => {
-          "AbilityIncreases" => {
-            "Dexterity" => 1
-          },
+          "AbilityIncreases" => { "Dexterity" => 1 }
         },
         "Rock Gnome" => {
-          "AbilityIncreases" => {
-            "Constitution" => 1
-          },
-        },
+          "AbilityIncreases" => { "Constitution" => 1 }
+        }
       }
     },
     "Half-Elf" => {
       "Speed"            => 30,
-      "AbilityIncreases" => {
-        "Charisma" => 2,
-      },
+      "AbilityIncreases" => { "Charisma" => 2 },
       "CustomAbilities" => {
         "Limit"     => 2,
         "Abilities" => [
@@ -110,17 +79,11 @@ module DnD
     },
     "Half-Orc" => {
       "Speed"            => 30,
-      "AbilityIncreases" => {
-        "Strength"     => 2,
-        "Constitution" => 1
-      },
+      "AbilityIncreases" => { "Strength" => 2, "Constitution" => 1 }
     },
     "Tiefling" => {
       "Speed"            => 30,
-      "AbilityIncreases" => {
-        "Intelligence" => 1,
-        "Charisma"     => 2
-      },
+      "AbilityIncreases" => { "Intelligence" => 1, "Charisma" => 2 }
     }
   }
 end

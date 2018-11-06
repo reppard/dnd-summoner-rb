@@ -5,6 +5,7 @@ require_relative 'lib/character'
 
 module DnD
   MENU_BORDER = "@" + "-"*78 +"@"
+  MENU_SPACER = "+" + "-"*78 +"+"
 end
 
 puts "Welcome to the D&D Character Creator"

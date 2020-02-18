@@ -22,12 +22,9 @@ module DnD
       @hit_dice = HIT_DICE[@name]
     end
 
-    def get_class_header
-      [ DnD::MENU_BORDER, "| Select a Class", DnD::MENU_BORDER]
-    end
-
     def display_class_table_prompt
-      puts get_class_header()
+      puts DnD.header_wrapper "| Select a Class"
+
       HIT_DICE.each.with_index{|v,i| puts "|\t#{i + 1}#{'.'*8}#{v[0]}"}
       printf "#{DnD::MENU_BORDER}\nClass: "
     end

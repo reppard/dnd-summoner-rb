@@ -2,24 +2,39 @@ require_relative 'race_data'
 
 module DnD
   class RacePicker
-    attr_accessor :race, :speed, :ability_increases
+
+    attr_accessor :name, :name_type, :race, :sex, :subrace, :speed, :ability_increases
 
     def initialize
       @speed             = 0
       @ability_increases = {}
+      @subrace           = ""
+      @name              = ""
+      @name_type         = ""
       @race              = set_race
     end
 
-    def get_race_header
-      [DnD::MENU_BORDER, "| Select a Race", DnD::MENU_BORDER]
-    end
+    def set_random_name()
+      race = ""
 
-    def get_custom_ability_header
-      [DnD::MENU_BORDER, "| Select a Ability to increase(+1)", DnD::MENU_BORDER]
+      if @race == "Half-Elf"
+        race = ["Human", "Elf"].sample
+      else
+        race = @race
+      end
+
+      name_types = ["Child", "Male", "Female"]
+      name_types.delete("Child") if DnD::RACES[race]["Names"]["Child"].nil?
+
+      @name_type  = name_types.sample
+      name = DnD::RACES[race]["Names"][@name_type].sample
+      sir  = DnD::RACES[race]["Names"]["Sir"].sample
+
+      @name = sir ? "#{name} #{sir}" : name
     end
 
     def display_race_table_prompt(data)
-      puts get_race_header()
+      puts DnD.header_wrapper "| Select a Race"
       data.each.with_index{|d,i| puts "|\t#{i + 1}#{'.'*8}#{d[0]}"}
 
       printf "#{DnD::MENU_BORDER}\nRace: "
@@ -27,7 +42,7 @@ module DnD
 
 
     def display_custom_ability_prompt(data)
-      puts get_custom_ability_header()
+      puts DnD.header_wrapper "| Select a Ability to increase(+1)"
       data.each.with_index{|v,i| puts "|\t#{i + 1}#{'.'*8}#{v}"}
 
       printf "#{DnD::MENU_BORDER}\nAbility: "
@@ -74,7 +89,7 @@ module DnD
       apply_speed(DnD::RACES[race])
 
       if DnD::RACES[race]["Subraces"]
-        subrace = get_race(DnD::RACES[race]["Subraces"])
+        @subrace = get_race(DnD::RACES[race]["Subraces"])
         apply_ability_increases(DnD::RACES[race]["Subraces"][subrace])
         apply_speed(DnD::RACES[race]["Subraces"][subrace])
       end

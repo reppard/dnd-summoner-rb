@@ -34,18 +34,18 @@ module DnD
     end
 
     def display_race_table_prompt(data)
-      puts DnD.header_wrapper "| Select a Race"
-      data.each.with_index{|d,i| puts "|\t#{i + 1}#{'.'*8}#{d[0]}"}
+      puts DnD.header_wrapper "│ Select Race"
+      data.each.with_index{|d,i| puts "│\t#{i + 1}#{'.'*8}#{d[0]}"}
 
-      printf "#{DnD::MENU_BORDER}\nRace: "
+      printf "#{DnD::MENU_BORDER_BOTTOM}\nRace (<ENTER> for Random): "
     end
 
 
     def display_custom_ability_prompt(data)
-      puts DnD.header_wrapper "| Select a Ability to increase(+1)"
-      data.each.with_index{|v,i| puts "|\t#{i + 1}#{'.'*8}#{v}"}
+      puts DnD.header_wrapper "│ Select an Ability to increase(+1)"
+      data.each.with_index{|v,i| puts "│\t#{i + 1}#{'.'*8}#{v}"}
 
-      printf "#{DnD::MENU_BORDER}\nAbility: "
+      printf "#{DnD::MENU_BORDER_BOTTOM}\nAbility: "
     end
 
     def set_custom_increases(data)
@@ -77,9 +77,13 @@ module DnD
 
       until races.keys.include?(race) do
         display_race_table_prompt(races)
-        race = races.keys[(STDIN.gets.chomp.to_i - 1)]
+
+        select = STDIN.gets.chomp.to_i - 1
+
+        race = select == -1 ? races.keys.sample : races.keys[select]
       end
 
+      puts "\n" + race + " selected\n"
       race
     end
 

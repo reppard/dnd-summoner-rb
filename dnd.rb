@@ -1,19 +1,41 @@
+require 'erb'
+
 require_relative 'lib/class_picker'
 require_relative 'lib/character'
 require_relative 'lib/race_picker'
 require_relative 'lib/scoreset'
 
+FOLDER = ARGV[0] ? ARGV[0] + "/" : "./"
+
 module DnD
-  MENU_BORDER = "@" + "-"*78 +"@"
-  MENU_SPACER = "+" + "-"*78 +"+"
+  MENU_BORDER_TOP = "╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮"
+  MENU_BORDER_BOTTOM = "╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯"
+  MENU_SPACER = "──━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━──"
 
   def self.header_wrapper(string)
-    [DnD::MENU_BORDER, string , DnD::MENU_BORDER]
+    [DnD::MENU_BORDER_TOP, string , DnD::MENU_BORDER_BOTTOM]
   end
 end
 
-puts "Welcome to the D&D Character Creator"
+welcome = '''
+____________________________________________   _________________________________
+]==-==-===-=-===-=====-==-=======--==-===-=-\ /===-===--=-;=-=--==-==-=-=-=====[
+│|: _________________________________________V______________________________ :|│
+│|:;/   ____, _,  _,____,  ____,_, _, __, _,__, _,____, _,  _,____,____,   \;:|│
+│|:|   (-|  \(-|\ |(-|  \ (-(__(-|  \(-|\/|(-|\/|(-/  \(-|\ |(-|_,(-|__)    |:|│
+│|:|    _|__/ _| \|,_|__/  ____)_|__/ _| _|,_| _|,_\__/,_| \|,_|__,_|  \,   |:|│
+│|:|   (     (     (      (    (     (     (     (     (     (    (         |:|│
+│|:|                                                                        |:|│
+│|:;\^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~/;:|│
+»»———————————————————————————————————-　☠　——————————————————————————————————-««
+'''
+
+puts ERB.new(%{
+<%= welcome %>
+}).result(binding)
 
 char = DnD::Character.new
 
 puts char
+filename = "#{char.race.race}-#{char.klass.name}-(#{char.name}).txt"
+File.open(FOLDER + filename, 'w') { |file| file.write(char)}

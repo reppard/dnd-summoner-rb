@@ -1,6 +1,8 @@
+require 'erb'
+
 module DnD
   class Character
-    attr_accessor :race, :klass, :score_set, :name
+    attr_accessor :race, :klass, :score_set, :name, :type
 
     def initialize
       @race      = RacePicker.new
@@ -19,25 +21,30 @@ module DnD
     end
 
     def to_s
-      increases = @race.ability_increases.collect{|k,v| "#{k} (+#{v})"}.join(', ')
+      increases = @race.ability_increases.collect{|k,v| "#{k[0..2]}(+#{v})"}.join('  ')
       [
-        DnD::MENU_BORDER,
+        DnD::MENU_BORDER_TOP,
+        "│ NAME:  \"#{@name}\"\t  CLASS: #{@klass.name}",
+        DnD::MENU_BORDER_BOTTOM,
+        DnD::MENU_BORDER_TOP,
         [
-          "| Class: #{@klass.name} | Name:  \"#{@name}\"",
-          "| Size: #{@size["Height"]} ft. #{@size["Weight"]} lbs."
+          "│ RACE: #{@race.subrace == "" ? @race.race : @race.subrace} (#{@type})",
+          "\tALIGNMENT: #{@alignment}",
         ].join(" "),
-        DnD::MENU_SPACER,
+        DnD::MENU_BORDER_BOTTOM,
+        DnD::MENU_BORDER_TOP,
         [
-          "| Race: #{@race.subrace == "" ? @race.race : @race.subrace} ",
-          "| Alignment: #{@alignment}"
+          "│ HP: #{@score_set.hp}\tAC: #{@score_set.default_ac}\tSPEED: #{@race.speed}",
+          "\tSIZE: #{@size["Height"]} ft. #{@size["Weight"]} lbs."
         ].join(" "),
-        DnD::MENU_SPACER,
-        "| HP: #{@score_set.hp}\tAC: #{@score_set.default_ac}\t Speed: #{@race.speed}",
-        DnD::MENU_SPACER,
-        "| Ability Increases: \t#{increases}",
-        DnD::MENU_BORDER,
+        DnD::MENU_BORDER_BOTTOM,
+        DnD::MENU_BORDER_TOP,
+        "│ ABILITY INCREASES: \t#{increases}",
+        DnD::MENU_BORDER_BOTTOM,
+        DnD::MENU_BORDER_TOP,
         "#{scores_display}",
-        DnD::MENU_BORDER
+        DnD::MENU_BORDER_BOTTOM,
+        "\n"
       ].join("\n")
     end
 
@@ -47,7 +54,7 @@ module DnD
         modifier = @score_set.modifiers[k]
 
         [
-          "| #{k}:",
+          "│ #{k}:",
           " "*spaces,
           "\t(#{'+' if modifier >= 0}#{modifier})#{v}"
         ].join(" ")
@@ -62,11 +69,12 @@ module DnD
       while input != "y"
         @race.set_random_name
         puts "Random Character's Name: \"#{@race.name}\"(#{@race.name_type})"
-        printf "\nKeep?('y' to keep): "
+        printf "\nKeep?('y' to keep, <ENTER> regen): "
 
         input = STDIN.gets.chomp
       end
 
+      @type = @race.name_type
       @name = @race.name
     end
   end

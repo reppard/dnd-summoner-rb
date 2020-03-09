@@ -21,46 +21,42 @@ module DnD
     end
 
     def to_s
-      increases = @race.ability_increases.collect{|k,v| "#{k[0..2]}(+#{v})"}.join('  ')
       [
-        DnD::MENU_BORDER_TOP,
-        "│ NAME:  \"#{@name}\"\t  CLASS: #{@klass.name}",
-        DnD::MENU_BORDER_BOTTOM,
-        DnD::MENU_BORDER_TOP,
-        [
-          "│ RACE: #{@race.subrace == "" ? @race.race : @race.subrace} (#{@type})",
-          "\tALIGNMENT: #{@alignment}",
-        ].join(" "),
-        DnD::MENU_BORDER_BOTTOM,
-        DnD::MENU_BORDER_TOP,
-        [
-          "│ HP: #{@score_set.hp}\tAC: #{@score_set.default_ac}\tSPEED: #{@race.speed}",
-          "\tSIZE: #{@size["Height"]} ft. #{@size["Weight"]} lbs."
-        ].join(" "),
-        DnD::MENU_BORDER_BOTTOM,
-        DnD::MENU_BORDER_TOP,
-        "│ ABILITY INCREASES: \t#{increases}",
-        DnD::MENU_BORDER_BOTTOM,
-        DnD::MENU_BORDER_TOP,
-        "#{scores_display}",
-        DnD::MENU_BORDER_BOTTOM,
-        "\n"
+        DnD::double_header_wrapper(" NAME:  \"#{@name}\"   CLASS: #{@klass.name}"),
+        DnD::double_header_wrapper([
+          " RACE: #{@race.subrace == "" ? @race.race : @race.subrace} (#{@type})",
+          "   ALIGNMENT: #{@alignment}",
+        ].join(" ")),
+        DnD::content_with_dbl_border(scores_display),
       ].join("\n")
     end
 
     def scores_display
-      scores = @score_set.scores.collect do |k,v|
-        spaces   = 13 - k.length
-        modifier = @score_set.modifiers[k]
+      i         = 0
+      increases = @race.ability_increases.collect{|k,v| "#{k[0..2].upcase}(+#{v})"}.join('  ')
+      atts      = [
+        "HP:         #{@score_set.hp}",
+        "AC:         #{@score_set.default_ac}",
+        "SPEED:      #{@race.speed}",
+        "SIZE:       #{@size["Height"]} ft. #{@size["Weight"]} lbs.",
+        "INCREASES:  #{increases}",
+      ]
 
-        [
-          "│ #{k}:",
-          " "*spaces,
-          "\t(#{'+' if modifier >= 0}#{modifier})#{v}"
-        ].join(" ")
+      scores = @score_set.scores.collect do |k,v|
+        key         = k[0..2].upcase
+        spaces      = " "*(14 - key.length)
+        modifier    = @score_set.modifiers[k]
+        score_entry = "#{key}: #{spaces}(#{'+' if modifier >= 0}#{modifier})#{v}"
+        spacer      = " "*(24 - score_entry.length)
+        score_line  = [
+          score_entry, spacer, "│  #{atts[i]}"
+        ].join("")
+        i += 1
+
+        score_line
       end
 
-      scores.join("\n")
+      scores
     end
 
     def get_name
@@ -68,7 +64,7 @@ module DnD
 
       while input != "y"
         @race.set_random_name
-        puts "Random Character's Name: \"#{@race.name}\"(#{@race.name_type})"
+        puts "\nRandom Character's Name: \"#{@race.name}\"(#{@race.name_type})"
         printf "\nKeep?('y' to keep, <ENTER> regen): "
 
         input = STDIN.gets.chomp

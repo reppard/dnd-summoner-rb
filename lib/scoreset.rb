@@ -8,6 +8,9 @@ module DnD
       @modifiers   = {}
       @scores      = get_base_scores()
 
+      puts "[ INFO ]: Rolled base scores"
+      puts "[ SCORES ]: #{@scores.collect{|k,v| "#{k}: #{v}"}}"
+
       apply_increases
       set_modifiers
       set_default_ac
@@ -42,7 +45,9 @@ module DnD
     end
 
     def get_sum_of_best_of_4d6
-      4.times.collect{ 1 + rand(6) }.sort[1..3].sum
+      roll = 4.times.collect{ 1 + rand(6) }.sort[1..3].sum
+      puts "[ INFO ]: Rolling ... #{roll}"
+      roll
     end
 
     def get_modifier(score)

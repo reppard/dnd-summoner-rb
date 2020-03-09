@@ -23,10 +23,7 @@ module DnD
     end
 
     def display_class_table_prompt
-      puts DnD.header_wrapper "│ Select Class"
-
-      HIT_DICE.each.with_index{|v,i| puts "│\t#{i + 1}#{'.'*8}#{v[0]}"}
-      printf "#{DnD::MENU_BORDER_BOTTOM}\nClass (<ENTER> for Random): "
+      DnD.menu_with_prompt("Select Class", HIT_DICE, "Class (<ENTER> for Random):")
     end
 
     def get_class
@@ -39,7 +36,7 @@ module DnD
         klass = select == -1 ? HIT_DICE.keys.sample : HIT_DICE.keys[select]
       end
 
-      puts "\n" + klass + " selected\n"
+      puts "[ INFO ]: " + klass + " selected\n"
       klass
     end
   end

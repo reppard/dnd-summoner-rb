@@ -34,14 +34,11 @@ module DnD
     end
 
     def display_race_table_prompt(data)
-      DnD.menu_with_prompt("Select Race", data,"Race (<ENTER> for Random):")
+      puts DnD.menu_with_prompt("Select Race", data,"Race (<ENTER> for Random):")
     end
 
     def display_custom_ability_prompt(data)
-      puts DnD.header_wrapper "Select an Ability to increase(+1)"
-      data.each.with_index{|v,i| puts "│   #{i + 1}#{'.'*8}#{v}"}
-
-      printf "#{DnD::MENU_BORDER_BOTTOM}\nAbility: "
+      puts DnD.menu_with_prompt("Select an Ability to increase(+1)", data,"Ability:")
     end
 
     def set_custom_increases(data)

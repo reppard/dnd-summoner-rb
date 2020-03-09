@@ -22,18 +22,18 @@ module DnD
 
     def to_s
       [
-        DnD::double_header_wrapper(" NAME:  \"#{@name}\"   CLASS: #{@klass.name}"),
-        DnD::double_header_wrapper([
+        DnD::header_wrapper(" NAME:  \"#{@name}\"   CLASS: #{@klass.name}", :double_lines),
+        DnD::header_wrapper([
           " RACE: #{@race.subrace == "" ? @race.race : @race.subrace} (#{@type})",
           "   ALIGNMENT: #{@alignment}",
-        ].join(" ")),
-        DnD::content_with_dbl_border(scores_display),
+        ].join(" "), :arrows),
+        DnD::content_with_border(attr_display, :arrows),
       ].join("\n")
     end
 
-    def scores_display
+    def attr_display
       i         = 0
-      increases = @race.ability_increases.collect{|k,v| "#{k[0..2].upcase}(+#{v})"}.join('  ')
+      increases = @race.ability_increases.collect{|k,v| "#{k[0..2].upcase}(+#{v})"}.join(',')
       atts      = [
         "HP:         #{@score_set.hp}",
         "AC:         #{@score_set.default_ac}",
@@ -44,10 +44,10 @@ module DnD
 
       scores = @score_set.scores.collect do |k,v|
         key         = k[0..2].upcase
-        spaces      = " "*(14 - key.length)
+        spaces      = " "*(5 - key.length)
         modifier    = @score_set.modifiers[k]
-        score_entry = "#{key}: #{spaces}(#{'+' if modifier >= 0}#{modifier})#{v}"
-        spacer      = " "*(24 - score_entry.length)
+        score_entry = "#{key}:#{spaces}(#{'+' if modifier >= 0}#{modifier})#{v}"
+        spacer      = " "*(14 - score_entry.length)
         score_line  = [
           score_entry, spacer, "│  #{atts[i]}"
         ].join("")

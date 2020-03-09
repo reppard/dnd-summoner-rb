@@ -23,7 +23,7 @@ module DnD
     end
 
     def display_class_table_prompt
-      DnD.menu_with_prompt("Select Class", HIT_DICE, "Class (<ENTER> for Random):")
+      printf DnD.menu_with_prompt("Select Class", HIT_DICE, "Class (<ENTER> for Random):")
     end
 
     def get_class

@@ -66,9 +66,28 @@ THEMES = {
 
   def self.row_wrapper(content, style=:lines)
     theme  = DnD::THEMES[style]
-    spaces = 79 - ((theme[:side].length*2) + content.length)
 
-    "#{theme[:side]} #{content}#{" "*spaces}#{theme[:side]}"
+    if content.is_a?(Array)
+      row_wrapper_with_spaces(content, style)
+    else
+      spaces = 79 - ((theme[:side].length*2) + content.length)
+
+      "#{theme[:side]} #{content}#{" "*spaces}#{theme[:side]}"
+    end
+  end
+
+  def self.row_wrapper_with_spaces(content, style=:lines)
+    theme       = DnD::THEMES[style]
+    avail_space = 79 - theme[:side].length*2
+    spaces      = avail_space - content.join.length
+
+    content_with_spaces = content.collect do |d|
+      "#{d}#{" "*(spaces/content.length)}"
+    end.join
+
+    remaining = avail_space - content_with_spaces.length
+
+    "#{theme[:side]} #{content_with_spaces}#{" "*remaining}#{theme[:side]}"
   end
 
   def self.menu_with_prompt(header, data, prompt)

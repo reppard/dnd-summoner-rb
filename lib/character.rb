@@ -23,12 +23,15 @@ module DnD
     end
 
     def to_s
+      race = @race.subrace == "" ? @race.race : @race.subrace
       [
-        DnD::header_wrapper(" NAME:  \"#{@name}\"   CLASS: #{@klass.name}", :double_lines_open_bottom),
-        DnD::row_wrapper([
-          " RACE: #{@race.subrace == "" ? @race.race : @race.subrace} (#{@type})",
-          "   ALIGNMENT: #{@alignment}",
-        ].join(" "), :double_lines),
+        DnD::header_wrapper(["NAME: \"#{@name}\"", "CLASS: #{@klass.name}"], :double_lines_open_bottom),
+        DnD::row_wrapper_with_spaces(
+          [
+            "RACE: #{race} (#{@type})",
+            "ALIGNMENT: #{@alignment}",
+            "LVL: #{@level}",
+          ], :double_lines),
         DnD::content_with_border(attr_display, :double_lines_open_top),
       ].join("\n")
     end
@@ -66,7 +69,7 @@ module DnD
 
       while input != "y"
         @race.set_random_name
-        puts "\nRandom Character's Name: \"#{@race.name}\"(#{@race.name_type})"
+        printf DnD::header_wrapper("Random Name:  \"#{@race.name}\"  (#{@race.name_type})", :double_lines)
         printf "\nKeep?('y' to keep, <ENTER> regen): "
 
         input = STDIN.gets.chomp

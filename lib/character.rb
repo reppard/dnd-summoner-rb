@@ -5,12 +5,14 @@ module DnD
     attr_accessor :race, :klass, :score_set, :name, :type
 
     def initialize
-      @race      = RacePicker.new
-      @klass     = ClassPicker.new
-      @score_set = ScoreSet.new(@race, @klass)
-      @name      = get_name
-      @alignment = generate_alignment
-      @size      = DnD::RACES[@race.race]["Size"]
+      @level      = get_lvl
+      @race       = DnD::RacePicker.new
+      @klass      = DnD::ClassPicker.new
+      @background = DnD::BackgroundPicker.new
+      @score_set  = DnD::ScoreSet.new(@race, @klass)
+      @name       = get_name
+      @alignment  = generate_alignment
+      @size       = DnD::RACES[@race.race]["Size"]
     end
 
     def generate_alignment
@@ -22,12 +24,12 @@ module DnD
 
     def to_s
       [
-        DnD::header_wrapper(" NAME:  \"#{@name}\"   CLASS: #{@klass.name}", :double_lines),
-        DnD::header_wrapper([
+        DnD::header_wrapper(" NAME:  \"#{@name}\"   CLASS: #{@klass.name}", :double_lines_open_bottom),
+        DnD::row_wrapper([
           " RACE: #{@race.subrace == "" ? @race.race : @race.subrace} (#{@type})",
           "   ALIGNMENT: #{@alignment}",
-        ].join(" "), :arrows),
-        DnD::content_with_border(attr_display, :arrows),
+        ].join(" "), :double_lines),
+        DnD::content_with_border(attr_display, :double_lines_open_top),
       ].join("\n")
     end
 
@@ -72,6 +74,26 @@ module DnD
 
       @type = @race.name_type
       @name = @race.name
+    end
+
+    def get_lvl
+      level = 0
+
+      while !(1..20).include?(level) do
+        printf "\nStart Lvl (default 1): "
+
+        input = STDIN.gets.chomp
+
+        if input == ""
+          level = 1
+        end
+
+        if (1..20).include?(input.to_i)
+          level = input.to_i
+        end
+      end
+
+      level
     end
   end
 end

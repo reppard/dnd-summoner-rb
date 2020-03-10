@@ -1,5 +1,6 @@
 require 'erb'
 
+require_relative 'lib/background_picker'
 require_relative 'lib/class_picker'
 require_relative 'lib/character'
 require_relative 'lib/race_picker'
@@ -26,37 +27,48 @@ THEMES = {
     "top":    "»»———————————————————————————————————-　☠　-——————————————————————————————————««",
     "bottom": "»»———————————————————————————————————-　☠　-——————————————————————————————————««",
     "side":   "│",
-    "spacer": "»»———————————————————————————————————-　☠　-——————————————————————————————————««",
   },
   "lines": {
     "top":    "╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮",
     "bottom": "╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯",
     "side":   "│",
-    "spacer": "──━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━──"
   },
   "double_lines": {
     "top":    "╔══════════════════════════════════════════════════════════════════════════════╗",
     "bottom": "╚══════════════════════════════════════════════════════════════════════════════╝",
     "side":   "║",
-    "spacer": "─══════════════════════════════════════════════════════════════════════════════─"
+  },
+  "double_lines_open_top": {
+    "top":    "╠══════════════════════════════════════════════════════════════════════════════╣",
+    "bottom": "╚══════════════════════════════════════════════════════════════════════════════╝",
+    "side":   "║",
+  },
+  "double_lines_open_bottom": {
+    "top":    "╔══════════════════════════════════════════════════════════════════════════════╗",
+    "bottom": "╠══════════════════════════════════════════════════════════════════════════════╣",
+    "side":   "║",
   },
   "gradient": {
     "top":    "▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░▏",
     "bottom": "▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░▏",
     "side":   "▐▓▒░▏",
-    "spacer": "─══════════════════════════════════════════════════════════════════════════════─"
   }
 }
 
   def self.header_wrapper(header, style=:lines)
-    theme   = DnD::THEMES[style]
-    spaces  = 79 - ((theme[:side].length*2) + header.length)
-
+    theme = DnD::THEMES[style]
     [
       "#{theme[:top]}",
-      "#{theme[:side]} #{header}#{" "*spaces}#{theme[:side]}",
+      row_wrapper(header, style),
       "#{theme[:bottom]}"
     ].join("\n")
+  end
+
+  def self.row_wrapper(content, style=:lines)
+    theme  = DnD::THEMES[style]
+    spaces = 79 - ((theme[:side].length*2) + content.length)
+
+    "#{theme[:side]} #{content}#{" "*spaces}#{theme[:side]}"
   end
 
   def self.menu_with_prompt(header, data, prompt)
@@ -77,8 +89,7 @@ THEMES = {
     theme = DnD::THEMES[style]
 
     lines = data.collect do |d|
-      spaces  = 79 - ((theme[:side].length*2) + d.length)
-      "#{theme[:side]} #{d}#{" "*spaces}#{theme[:side]}"
+      row_wrapper(d, style)
     end
 
     ERB.new(

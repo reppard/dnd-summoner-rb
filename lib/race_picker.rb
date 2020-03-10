@@ -1,4 +1,4 @@
-require_relative 'race_data'
+require_relative 'data'
 
 module DnD
   class RacePicker
@@ -34,11 +34,11 @@ module DnD
     end
 
     def display_race_table_prompt(data)
-      puts DnD.menu_with_prompt("Select Race", data,"Race (<ENTER> for Random):")
+      printf DnD.menu_with_prompt("Select Race", data,"Race (default Random):")
     end
 
     def display_custom_ability_prompt(data)
-      puts DnD.menu_with_prompt("Select an Ability to increase(+1)", data,"Ability:")
+      printf DnD.menu_with_prompt("Select an Ability to increase(+1)", data,"Ability:")
     end
 
     def set_custom_increases(data)

@@ -9,6 +9,45 @@ module DnD
     }
   end
 
+  CLASSES = {
+    "Barbarian" => {
+      "HitDice" => 12
+    },
+    "Bard" => {
+      "HitDice" => 8
+    },
+    "Cleric" => {
+      "HitDice" => 8
+    },
+    "Druid" => {
+      "HitDice" => 8
+    },
+    "Fighter" => {
+      "HitDice" => 10
+    },
+    "Monk" => {
+      "HitDice" => 8
+    },
+    "Paladin" => {
+      "HitDice" => 10
+    },
+    "Ranger" => {
+      "HitDice" => 10
+    },
+    "Rogue" => {
+      "HitDice" => 8
+    },
+    "Sorcerer" => {
+      "HitDice" => 6
+    },
+    "Warlock" => {
+      "HitDice" => 8
+    },
+    "Wizard" => {
+      "HitDice" => 6
+    },
+  }
+
   RACES = {
     "Dwarf" => {
       "Speed"            => 25,

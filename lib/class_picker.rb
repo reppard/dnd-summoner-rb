@@ -22,7 +22,7 @@ module DnD
           : DnD::CLASSES.keys[select]
       end
 
-      puts "[ INFO ]: " + klass + " selected\n"
+      puts "...class_picker.get_class: #{klass} selected"
       klass
     end
   end

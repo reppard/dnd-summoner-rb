@@ -93,6 +93,7 @@ module DnD
         end
       end
 
+      puts "...character.get_lvl: #{level} selected"
       level
     end
   end

@@ -76,7 +76,7 @@ module DnD
         race = select == -1 ? races.keys.sample : races.keys[select]
       end
 
-      puts "[ INFO ]: " + race + " selected\n"
+      puts "...race_picker.get_race: #{race} selected"
       race
     end
 

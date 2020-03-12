@@ -1,3 +1,5 @@
+require 'json'
+
 module DnD
   def self.get_size(height_range, weight_range)
     height = rand(height_range).round(2)
@@ -48,11 +50,17 @@ module DnD
     },
   }
 
+  RACES_META = JSON.parse(File.read("data/01 races.json"))
+
   RACES = {
     "Dwarf" => {
       "Speed"            => 25,
       "AbilityIncreases" => { "Constitution" => 2 },
       "Size"             => get_size(4.0..5.0, 30..32),
+      "Alignments"       => {
+        "Ethical" => [["Lawful"]*2, "Neutral"].flatten,
+        "Moral"   => [["Good"]*2, "Neutral"].flatten,
+      },
       "Subraces"         => {
         "Hill Dwarf" => {
           "AbilityIncreases" => { "Wisdom" => 1 }
@@ -92,6 +100,10 @@ module DnD
       "Speed"            => 30,
       "AbilityIncreases" => { "Dexterity" => 2 },
       "Size"             => get_size(4.0..6.2, 20..23),
+      "Alignments"       => {
+        "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
+        "Moral"   => [["Good"]*3, "Evil"].flatten,
+      },
       "Subraces" => {
         "Dark Elf" => {
           "AbilityIncreases" => { "Charisma" => 1 }
@@ -137,6 +149,10 @@ module DnD
       "Speed"            => 25,
       "AbilityIncreases" => { "Dexterity" => 2 },
       "Size"             => get_size(2.8..3.3, 11..14),
+      "Alignments"       => {
+        "Ethical" => [["Lawful"]*4, "Neutral"].flatten,
+        "Moral"   => [["Good"]*4, "Neutral"].flatten,
+      },
       "Subraces" => {
         "Lightfoot Halfling" => {
           "AbilityIncreases" => { "Charisma" => 1 }
@@ -165,6 +181,10 @@ module DnD
     "Human" => {
       "Speed"            => 30,
       "Size"             => get_size(5.2..6.8, 24..30),
+      "Alignments"       => {
+        "Ethical" => ["Lawful", "Neutral", "Chaotic"],
+        "Moral"   => ["Good", "Neutral", "Evil"],
+      },
       "AbilityIncreases" => {
         "Strength"     => 1,
         "Dexterity"    => 1,
@@ -217,6 +237,10 @@ module DnD
       "Speed"            => 30,
       "AbilityIncreases" => { "Strength" => 2, "Charisma" => 1 },
       "Size"             => get_size(6.2..7.5, 34..38),
+      "Alignments"       => {
+        "Ethical" => ["Lawful", "Chaotic"],
+        "Moral"   => [["Good"]*4, "Evil"].flatten,
+      },
       "Names" => {
         "Child" => [
           "Climber", "Earbender", "Leaper", "Pious", "Shieldbiter", "Zealous"
@@ -244,6 +268,10 @@ module DnD
       "Speed"            => 25,
       "AbilityIncreases" => { "Intelligence" => 2 },
       "Size"             => get_size(3.0..4.0, 9..12),
+      "Alignments"       => {
+        "Ethical" => ["Lawful", "Neutral", "Chaotic"],
+        "Moral"   => [["Good"]*4, "Neutral", "Evil"].flatten,
+      },
       "Subraces" => {
         "Forest Gnome" => {
           "AbilityIncreases" => { "Dexterity" => 1 }
@@ -280,6 +308,10 @@ module DnD
       "Speed"            => 30,
       "AbilityIncreases" => { "Charisma" => 2 },
       "Size"             => get_size(5.2..6.8, 24..30),
+      "Alignments"       => {
+        "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
+        "Moral"   => ["Good", "Neutral", "Evil"],
+      },
       "CustomAbilities" => {
         "Limit"     => 2,
         "Abilities" => [
@@ -299,6 +331,10 @@ module DnD
       "Speed"            => 30,
       "AbilityIncreases" => { "Strength" => 2, "Constitution" => 1 },
       "Size"             => get_size(5.2..6.8, 28..34),
+      "Alignments"       => {
+        "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
+        "Moral"   => [["Evil"]*4, "Neutral", "Good"].flatten,
+      },
       "Names" => {
         "Male" => [
           "Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth", "Krusk",
@@ -316,6 +352,10 @@ module DnD
       "Speed"            => 30,
       "AbilityIncreases" => { "Intelligence" => 1, "Charisma" => 2 },
       "Size"             => get_size(5.2..6.8, 24..30),
+      "Alignments"       => {
+        "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
+        "Moral"   => [["Evil"]*3, "Neutral", "Good"].flatten,
+      },
       "Names" => {
         "Male" =>  [
           "Akmenos", "Amnon", "Barakas", "Damakos", "Ekemon", "Iados", "Kairon",

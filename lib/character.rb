@@ -17,8 +17,8 @@ module DnD
 
     def generate_alignment
       [
-        ["Lawful", "Neutral", "Chaotic"].sample,
-        ["Good", "Neutral", "Evil"].sample
+        DnD::RACES[@race.race]["Alignments"]["Ethical"].sample,
+        DnD::RACES[@race.race]["Alignments"]["Moral"].sample
       ].uniq.join(" ")
     end
 
@@ -26,14 +26,17 @@ module DnD
       race = @race.subrace == "" ? @race.race : @race.subrace
       [
         DnD::header_wrapper(["NAME: \"#{@name}\"", "CLASS: #{@klass.name}"], :double_lines_open_bottom),
-        DnD::row_wrapper_with_spaces(
-          [
-            "RACE: #{race} (#{@type})",
-            "ALIGNMENT: #{@alignment}",
-            "LVL: #{@level}",
-          ], :double_lines),
+        "\n",
+        DnD::row_wrapper_with_spaces([
+          "RACE: #{race} (#{@type})",
+          "ALIGNMENT: #{@alignment}",
+          "LVL: #{@level}"], :double_lines),
+        "\n",
         DnD::content_with_border(attr_display, :double_lines_open_top),
-      ].join("\n")
+        DnD::content_with_border(
+          DnD::wrap_multi_line_text(@race.content, 74), :arrows),
+        DnD::content_with_border(@race.ancestry.collect{|a| a.join})
+      ].join("")
     end
 
     def attr_display

@@ -3,7 +3,8 @@ require_relative 'data'
 module DnD
   class RacePicker
 
-    attr_accessor :name, :name_type, :race, :sex, :subrace, :speed, :ability_increases
+    attr_accessor :content, :name, :name_type, :race, :sex, :subrace, :speed,
+      :ability_increases, :ancestry
 
     def initialize
       @speed             = 0
@@ -12,6 +13,8 @@ module DnD
       @name              = ""
       @name_type         = ""
       @race              = set_race
+      @content           = get_content
+      @ancestry          = get_ancestry_table
     end
 
     def set_random_name()
@@ -92,6 +95,33 @@ module DnD
       end
 
       race
+    end
+
+    def get_content
+      DnD::RACES_META["Races"][@race].collect{|k,v| v["content"]}[0]
+    end
+
+    def get_ancestry_table
+      table_data = DnD::RACES_META["Races"]["Dragonborn"]["Dragonborn Traits"]["Ancestry"]["Table"]
+      table      = []
+
+      if @race == "Dragonborn"
+        table.append(table_data.keys)
+
+        table_data[table[0][0]].each_with_index do |d, i|
+          dragon = d
+          type   = table_data[table[0][1]][i]
+          breath = table_data[table[0][2]][i]
+          dragon = "#{dragon}#{" "*(23-dragon.length)}"
+          type   = "#{type}#{" "*(23-type.length)}"
+
+          table.append([dragon, type, breath])
+        end
+
+        table[0].map!{|i| "#{i}#{" "*(23-i.length)}"}
+      end
+
+      table
     end
   end
 end

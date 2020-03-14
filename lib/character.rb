@@ -6,7 +6,7 @@ module DnD
 
     def initialize
       @level      = get_lvl
-      @race       = DnD::RacePicker.new
+      @race       = DnD::Race.new
       @klass      = DnD::ClassPicker.new
       @background = DnD::BackgroundPicker.new
       @score_set  = DnD::ScoreSet.new(@race, @klass)
@@ -24,19 +24,39 @@ module DnD
 
     def to_s
       race = @race.subrace == "" ? @race.race : @race.subrace
-      [
-        DnD::header_wrapper(["NAME: \"#{@name}\"", "CLASS: #{@klass.name}"], :double_lines_open_bottom),
-        "\n",
-        DnD::row_wrapper_with_spaces([
-          "RACE: #{race} (#{@type})",
-          "ALIGNMENT: #{@alignment}",
-          "LVL: #{@level}"], :double_lines),
-        "\n",
-        DnD::content_with_border(attr_display, :double_lines_open_top),
+      display = []
+      display.append(
+        DnD::header_wrapper(
+          [
+            "NAME: \"#{@name}\"",
+            "CLASS: #{@klass.name}"
+          ], :double_lines_open_bottom
+        )
+      )
+      display.append("\n")
+      display.append(
+        DnD::row_wrapper_with_spaces(
+          [
+            "RACE: #{race} (#{@type})",
+            "ALIGNMENT: #{@alignment}",
+            "LVL: #{@level}"
+          ], :double_lines
+        )
+      )
+      display.append("\n")
+      display.append(
+        DnD::content_with_border(attr_display, :double_lines_open_top)
+      )
+      display.append(
         DnD::content_with_border(
-          DnD::wrap_multi_line_text(@race.content, 74), :arrows),
+          DnD::wrap_multi_line_text(@race.traits, 74), :arrows
+        )
+      )
+      display.append(
         DnD::content_with_border(@race.ancestry.collect{|a| a.join})
-      ].join("")
+      ) if !@race.ancestry.empty?
+
+      display.join("")
     end
 
     def attr_display
@@ -72,7 +92,9 @@ module DnD
 
       while input != "y"
         @race.set_random_name
-        printf DnD::header_wrapper("Random Name:  \"#{@race.name}\"  (#{@race.name_type})", :double_lines)
+        printf DnD::header_wrapper(
+          "Random Name:  \"#{@race.name}\"  (#{@race.name_type})", :double_lines
+        )
         printf "\nKeep?('y' to keep, <ENTER> regen): "
 
         input = STDIN.gets.chomp

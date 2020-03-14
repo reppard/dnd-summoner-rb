@@ -1,9 +1,9 @@
 require_relative 'data'
 
 module DnD
-  class RacePicker
+  class Race
 
-    attr_accessor :content, :name, :name_type, :race, :sex, :subrace, :speed,
+    attr_accessor :traits, :name, :name_type, :race, :sex, :subrace, :speed,
       :ability_increases, :ancestry
 
     def initialize
@@ -13,7 +13,7 @@ module DnD
       @name              = ""
       @name_type         = ""
       @race              = set_race
-      @content           = get_content
+      @traits            = set_traits
       @ancestry          = get_ancestry_table
     end
 
@@ -97,12 +97,26 @@ module DnD
       race
     end
 
-    def get_content
-      DnD::RACES_META["Races"][@race].collect{|k,v| v["content"]}[0]
+    def set_traits
+      traits = DnD::RACES[@race]["Traits"]
+
+      if @subrace != ""
+        subrace_traits = DnD::RACES[@race]["Subraces"][@subrace]["Traits"]
+
+        if subrace_traits != nil
+          traits.append("~~~[ #{@subrace} Traits ]~~~:")
+
+          subrace_traits.each do |trait|
+            traits.append(trait)
+          end
+        end
+      end
+
+      traits
     end
 
     def get_ancestry_table
-      table_data = DnD::RACES_META["Races"]["Dragonborn"]["Dragonborn Traits"]["Ancestry"]["Table"]
+      table_data = DnD::RACES_META["Dragonborn"]["Dragonborn Traits"]["Ancestry"]["Table"]
       table      = []
 
       if @race == "Dragonborn"

@@ -3,7 +3,7 @@ require 'erb'
 require_relative 'lib/background_picker'
 require_relative 'lib/class_picker'
 require_relative 'lib/character'
-require_relative 'lib/race_picker'
+require_relative 'lib/race'
 require_relative 'lib/scoreset'
 
 FOLDER = ARGV[0] ? ARGV[0] + "/" : "./"

@@ -37,11 +37,11 @@ module DnD
     end
 
     def display_race_table_prompt(data)
-      printf DnD.menu_with_prompt("Select Race", data,"Race (default Random):")
+      printf DnD.menu_with_prompt("Select Race", data,"Race (default random):")
     end
 
     def display_custom_ability_prompt(data)
-      printf DnD.menu_with_prompt("Select an Ability to increase(+1)", data,"Ability:")
+      printf DnD.menu_with_prompt("Select an Ability to increase(+1)", data,"Ability (default random):")
     end
 
     def set_custom_increases(data)
@@ -51,9 +51,14 @@ module DnD
         until abilities.include?(ability) do
           display_custom_ability_prompt(abilities)
           ability = abilities[STDIN.gets.chomp.to_i - 1]
+
+          ability == -1 ? (1..abilities.length).to_a.sample : ability
         end
 
         @ability_increases[ability] = 1
+
+        puts "...race.set_custom_increases: #{ability} chosen"
+
         abilities.delete(ability)
       end
     end
@@ -116,8 +121,8 @@ module DnD
     end
 
     def get_ancestry_table
-      table_data = DnD::RACES_META["Dragonborn"]["Dragonborn Traits"]["Ancestry"]["Table"]
       table      = []
+      table_data = DnD::RACES_META["Dragonborn"]["Traits"]["Ancestry"]["Table"]
 
       if @race == "Dragonborn"
         table.append(table_data.keys)

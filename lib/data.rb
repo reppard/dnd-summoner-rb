@@ -11,6 +11,7 @@ module DnD
     }
   end
 
+  CLASSES_META = JSON.parse(File.read("data/02 classes.json"))
   CLASSES = {
     "Barbarian" => {
       "HitDice" => 12
@@ -60,11 +61,11 @@ module DnD
         "Ethical" => [["Lawful"]*2, "Neutral"].flatten,
         "Moral"   => [["Good"]*2, "Neutral"].flatten,
       },
-      "Traits" => RACES_META["Dwarf"]["Dwarf Traits"]["content"],
+      "Traits" => RACES_META["Dwarf"]["Traits"]["content"],
       "Subraces"         => {
         "Hill Dwarf" => {
           "AbilityIncreases" => { "Wisdom" => 1 },
-          "Traits" => RACES_META["Dwarf"]["Dwarf Traits"]["Hill Dwarf"]["content"]
+          "Traits" => RACES_META["Dwarf"]["Traits"]["Hill Dwarf"]["content"]
         },
         "Mountain Dwarf" => {
           "AbilityIncreases" => { "Strength" => 2 }
@@ -105,7 +106,7 @@ module DnD
         "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
         "Moral"   => [["Good"]*3, "Evil"].flatten,
       },
-      "Traits" => RACES_META["Elf"]["Elf Traits"]["content"],
+      "Traits" => RACES_META["Elf"]["Traits"]["content"],
       "Subraces" => {
         "Dark Elf" => {
           "AbilityIncreases" => { "Charisma" => 1 }
@@ -116,7 +117,7 @@ module DnD
         },
         "High Elf" => {
           "AbilityIncreases" => { "Intelligence" => 1 },
-          "Traits" => RACES_META["Elf"]["Elf Traits"]["High Elf"]["content"],
+          "Traits" => RACES_META["Elf"]["Traits"]["High Elf"]["content"],
         }
       },
       "Names" => {
@@ -156,10 +157,10 @@ module DnD
         "Ethical" => [["Lawful"]*4, "Neutral"].flatten,
         "Moral"   => [["Good"]*4, "Neutral"].flatten,
       },
-      "Traits" => RACES_META["Halfling"]["Halfling Traits"]["content"],
+      "Traits" => RACES_META["Halfling"]["Traits"]["content"],
       "Subraces" => {
         "Lightfoot Halfling" => {
-          "Traits" => RACES_META["Halfling"]["Halfling Traits"]["Lightfoot"]["content"],
+          "Traits" => RACES_META["Halfling"]["Traits"]["Lightfoot"]["content"],
           "AbilityIncreases" => { "Charisma" => 1 }
         },
         "Stout Halfling" => {
@@ -190,7 +191,7 @@ module DnD
         "Ethical" => ["Lawful", "Neutral", "Chaotic"],
         "Moral"   => ["Good", "Neutral", "Evil"],
       },
-      "Traits" => RACES_META["Human"]["Human Traits"]["content"],
+      "Traits" => RACES_META["Human"]["Traits"]["content"],
       "AbilityIncreases" => {
         "Strength"     => 1,
         "Dexterity"    => 1,
@@ -247,7 +248,7 @@ module DnD
         "Ethical" => ["Lawful", "Chaotic"],
         "Moral"   => [["Good"]*4, "Evil"].flatten,
       },
-      "Traits" => RACES_META["Dragonborn"]["Dragonborn Traits"]["content"],
+      "Traits" => RACES_META["Dragonborn"]["Traits"]["content"],
       "Names" => {
         "Child" => [
           "Climber", "Earbender", "Leaper", "Pious", "Shieldbiter", "Zealous"
@@ -279,13 +280,13 @@ module DnD
         "Ethical" => ["Lawful", "Neutral", "Chaotic"],
         "Moral"   => [["Good"]*4, "Neutral", "Evil"].flatten,
       },
-      "Traits" => RACES_META["Gnome"]["Gnome Traits"]["content"],
+      "Traits" => RACES_META["Gnome"]["Traits"]["content"],
       "Subraces" => {
         "Forest Gnome" => {
           "AbilityIncreases" => { "Dexterity" => 1 }
         },
         "Rock Gnome" => {
-          "Traits" => RACES_META["Gnome"]["Gnome Traits"]["Rock Gnome"]["content"],
+          "Traits" => RACES_META["Gnome"]["Traits"]["Rock Gnome"]["content"],
           "AbilityIncreases" => { "Constitution" => 1 }
         }
       },
@@ -321,7 +322,7 @@ module DnD
         "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
         "Moral"   => ["Good", "Neutral", "Evil"],
       },
-      "Traits" => RACES_META["Half-Elf"]["Half-Elf Traits"]["content"],
+      "Traits" => RACES_META["Half-Elf"]["Traits"]["content"],
       "CustomAbilities" => {
         "Limit"     => 2,
         "Abilities" => [
@@ -345,7 +346,7 @@ module DnD
         "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
         "Moral"   => [["Evil"]*4, "Neutral", "Good"].flatten,
       },
-      "Traits" => RACES_META["Half-Orc"]["Half-Orc Traits"]["content"],
+      "Traits" => RACES_META["Half-Orc"]["Traits"]["content"],
       "Names" => {
         "Male" => [
           "Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth", "Krusk",
@@ -367,7 +368,7 @@ module DnD
         "Ethical" => [["Chaotic"]*3, "Neutral"].flatten,
         "Moral"   => [["Evil"]*3, "Neutral", "Good"].flatten,
       },
-      "Traits" => RACES_META["Tiefling"]["Tiefling Traits"]["content"],
+      "Traits" => RACES_META["Tiefling"]["Traits"]["content"],
       "Names" => {
         "Male" =>  [
           "Akmenos", "Amnon", "Barakas", "Damakos", "Ekemon", "Iados", "Kairon",

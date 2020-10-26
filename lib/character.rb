@@ -7,7 +7,7 @@ module DnD
     def initialize
       @level      = get_lvl
       @race       = DnD::Race.new
-      @klass      = DnD::ClassPicker.new
+      @klass      = DnD::Klass.new
       @background = DnD::BackgroundPicker.new
       @score_set  = DnD::ScoreSet.new(@race, @klass)
       @name       = get_name
@@ -55,6 +55,31 @@ module DnD
       display.append(
         DnD::content_with_border(@race.ancestry.collect{|a| a.join})
       ) if !@race.ancestry.empty?
+
+      display.append(
+        DnD::header_wrapper(@klass.features["content"], :double_lines)
+      )
+
+      display.append("\n")
+
+      display.append(
+        DnD::content_with_border(
+          DnD::wrap_multi_line_text(
+            @klass.features["Proficiencies"]["content"],74), :double_lines
+        )
+      )
+
+      display.append(
+        DnD::content_with_border(
+          DnD::wrap_multi_line_text(
+            [
+              @klass.features["Equipment"]["content"][0],
+              @klass.features["Equipment"]["content"][1]
+            ].flatten, 74)
+        )
+      )
+
+      #display.append(@klass.features.to_s)
 
       display.join("")
     end

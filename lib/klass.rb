@@ -1,10 +1,11 @@
 module DnD
-  class ClassPicker
-    attr_accessor :name, :hit_dice
+  class Klass
+    attr_accessor :name, :hit_dice, :features
 
     def initialize
       @name     = get_class
       @hit_dice = DnD::CLASSES[@name]["HitDice"]
+      @features = DnD::CLASSES_META[@name]["Class Features"]
     end
 
     def display_class_table_prompt

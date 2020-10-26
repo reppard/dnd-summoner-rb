@@ -1,12 +1,12 @@
 require 'erb'
 
 require_relative 'lib/background_picker'
-require_relative 'lib/class_picker'
+require_relative 'lib/klass'
 require_relative 'lib/character'
 require_relative 'lib/race'
 require_relative 'lib/scoreset'
 
-FOLDER = ARGV[0] ? ARGV[0] + "/" : "./"
+FOLDER = ARGV[0] ? ARGV[0] + "/" : ""
 
 module DnD
   WELCOME = '''
@@ -71,6 +71,7 @@ module DnD
       row_wrapper_with_spaces(content, style)
     else
       spaces = 79 - ((theme[:side].length*2) + content.length)
+      spaces = spaces > 1 ? spaces : 1
 
       "#{theme[:side]} #{content}#{" "*spaces}#{theme[:side]}"
     end
@@ -131,10 +132,3 @@ module DnD
     data.flatten
   end
 end
-
-printf DnD::WELCOME
-char = DnD::Character.new
-printf char.to_s
-
-filename = "#{char.race.race}-#{char.klass.name}-(#{char.name}).txt"
-File.open(FOLDER + filename, 'w') { |file| file.write(char)}
